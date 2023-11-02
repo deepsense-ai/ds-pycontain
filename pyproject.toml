@@ -13,39 +13,15 @@ known_first_party=[
     'ds_pycontain'
 ]
 known_third_party=[  # Most popular libraries. Extend if necessary.
-    'IPython',
-    'PIL',
-    'cv2',
     'dotenv',
-    'editdistance',
-    'fastapi',
-    'fire',
-    'hydra',
-    'joblib',
-    'loguru',
-    'luigi',
-    'matplotlib',
-    'neptune',
-    'neptune_config',
-    'nltk',
-    'numpy',
-    'omegaconf',
-    'pandas',
     'pqdm',
     'pydantic',
     'pytest',
-    'pytorch_lightning',
     'requests',
-    'scipy',
     'setuptools',
-    'shapely',
-    'skimage',
-    'sklearn',
-    'streamlit',
-    'torch',
-    'torchvision',
     'tqdm',
     'typer',
+    'docker',
 ]
 skip_gitignore=true
 
@@ -95,6 +71,10 @@ module = "ds_pycontain.*"
 ignore_missing_imports = false
 disallow_untyped_defs = true
 
+[[tool.mypy.overrides]]
+module = "docker.*"
+ignore_errors = true
+
 [tool.pylint.basic]
 good-names="""i,j,x,y,z,x1,y1,z1,x2,y2,z2,cv,df,dx,dy,dz,w,h,c,b,g,qa,q,a""""
 max-args=8
@@ -140,3 +120,6 @@ min-similarity-lines=10
 
 [tool.bandit]
 exclude_dirs = ["venv",]
+# B101 disables errors for asserts in the code
+# remember to not use asserts for security and control flows
+skips = ["B101"]
