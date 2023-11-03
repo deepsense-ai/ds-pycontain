@@ -5,6 +5,10 @@
 
 [Documentation](https://deepsense-ai.github.io/ds-pycontain/)
 
+```bash
+pip install ds_pycontain
+```
+
 It is a simple wrapper library around docker python API to make it easier to use and to provide Python REPL running in a container.
 In particular it was created for langchain isolated python REPL, so agents can run code in isolation.
 
