@@ -20,8 +20,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Install Dependencies
-        run: pip install -r requirements-dev.txt
+      - name: Create venv
+        run: . ./setup_dev_env.sh
 
       - name: Build docs
         run: ./build_docs.sh
