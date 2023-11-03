@@ -63,7 +63,7 @@ jobs:
         run: pip install -r requirements-dev.txt
 
       - name: Run Tests
-        run: pytest -v -p no:warnings --junitxml=report.xml tests/
+        run: CI=1 pytest -v -p no:warnings --junitxml=report.xml tests/
 
       - name: Publish Test Report
         uses: actions/upload-artifact@v2

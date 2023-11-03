@@ -5,7 +5,10 @@
 
 [Documentation](https://deepsense-ai.github.io/ds-pycontain/)
 
-It is a simple wrapper library around docker python API to make it easier to use in. In particular it was created for langchain isolated repl.
+It is a simple wrapper library around docker python API to make it easier to use and to provide Python REPL running in a container.
+In particular it was created for langchain isolated python REPL, so agents can run code in isolation.
+
+**Warning**: This package requires docker to be installed and running on the host machine. It also needs more work to make it secure.
 
 This package makes it a bit easier to:
 
@@ -13,6 +16,7 @@ This package makes it a bit easier to:
 * Pull docker images from dockerhub (or similar).
 * Run docker container to execute a one-off command.
 * Run docker container to execute a long-running process and communicate with it.
+* Run python commands in a container and get the result.
 
 Project boostraped with ds-template: [https://deepsense-ai.github.io/ds-template/](https://deepsense-ai.github.io/ds-template/).
 
@@ -37,6 +41,8 @@ Project boostraped with ds-template: [https://deepsense-ai.github.io/ds-template
 
 ## Docker images
 ```python
+from ds_pycontain import DockerImage
+
 # pull or use alpine:latest
 image = DockerImage.from_tag("alpine")
 # use provided tag to pull/use the image
@@ -45,6 +51,38 @@ image = DockerImage.from_tag("python", tag="3.9-slim")
 image = DockerImage.from_dockerfile("example/Dockerfile")
 # you can provide a directory path which contains Dockerfile, set custom image name
 image = DockerImage.from_dockerfile("path/to/dir_with_Dockerfile/", name="cow")
+```
+
+## Python REPL running in docker container
+```python
+  from ds_pycontain.python_dockerized_repl import PythonContainerREPL
+
+  # To start python REPL in container it is easy,
+  # just be aware that it will take some time to start the container
+  # and ports might be allocated by OS, so use different port/retry
+  # if you get error.
+  repl = PythonContainerREPL(port=7121)
+
+  # You can run python commands in the container
+  # and it will keep state between commands.
+  out1 = repl.exec("x = [1, 2, 3]")
+  assert out1 == ""
+  # Eval returns string representation of the python command
+  # as it would be in python REPL:
+  out2 = repl.eval("len(x)")
+  assert out2 == "3"
+
+  # Exec returns captured standard output (stdout)
+  # so it won't return anything in this case:
+  out3 = repl.exec("len(x)")
+  assert out3 == ""
+  # but exec with print works:
+  out4 = repl.exec("print(len(x))")
+  assert out4 == "3\n"
+
+  # You can also get error messages if code is wrong:
+  err = repl.exec("print(x")
+  assert "SyntaxError" in err
 ```
 
 # Setup developer environment

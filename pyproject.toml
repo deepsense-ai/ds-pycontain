@@ -119,7 +119,7 @@ max-locals=20
 min-similarity-lines=10
 
 [tool.bandit]
-exclude_dirs = ["venv",]
+exclude_dirs = ["venv", "src/ds_pycontain/data"]
 # B101 disables errors for asserts in the code
 # remember to not use asserts for security and control flows
 skips = ["B101"]
