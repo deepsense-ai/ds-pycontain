@@ -1,15 +1,23 @@
 # NOTE: ports are set to be different in each test so they don't collide
 # as sockets might not be available immediately after container is stopped.
 # It means that tests might also fail to run if port is not freed in time!
+# Also tests do not work on Github Actions at the moment, so please
+# run them locally!
+import os
+
+import pytest
+
 from ds_pycontain.python_dockerized_repl import PythonContainerREPL
 
 
+@pytest.mark.skipif("CI" in os.environ, reason="Does not work on Github Actions")
 def test_python_container_repl_can_be_started() -> None:
     repl = PythonContainerREPL(port=7120)
     assert repl is not None
     del repl
 
 
+@pytest.mark.skipif("CI" in os.environ, reason="Does not work on Github Actions")
 def test_python_container_repl_works() -> None:
     repl = PythonContainerREPL(port=7121)
     out1 = repl.exec("x = [1, 2, 3]")
@@ -28,6 +36,7 @@ def test_python_container_repl_works() -> None:
     assert "SyntaxError" in err2
 
 
+@pytest.mark.skipif("CI" in os.environ, reason="Does not work on Github Actions")
 def test_python_container_exec_code() -> None:
     repl = PythonContainerREPL(port=7122)
     code = """def fib(n):
@@ -42,6 +51,7 @@ print(fib(6))
     assert out2 == "5\n"
 
 
+@pytest.mark.skipif("CI" in os.environ, reason="Does not work on Github Actions")
 def test_python_container_ast_code() -> None:
     repl = PythonContainerREPL(port=7123)
     code = """def fib(n):
