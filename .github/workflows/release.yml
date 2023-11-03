@@ -27,7 +27,7 @@ jobs:
       - name: Bump version as release
         run: |
           source venv/bin/activate
-          ./bump_version.sh release
+          bump2version --verbose release
 
       - name: Build package
         run: |
