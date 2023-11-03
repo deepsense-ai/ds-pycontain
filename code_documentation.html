@@ -80,29 +80,7 @@
              
   <section id="code-documentation">
 <h1>Code documentation<a class="headerlink" href="#code-documentation" title="Permalink to this heading"></a></h1>
-<p><strong>ds_pycontain</strong> is a python package which provides an abstraction over the docker API.</p>
-<p>Supported functionality covers:</p>
-<ul class="simple">
-<li><p>Building docker images from Dockerfiles</p></li>
-<li><p>Pulling docker images from dockerhub (or similar)</p></li>
-<li><p>Running docker containers to execute a one-off command</p></li>
-<li><p>Running docker containers to execute a long-running process and communicate with it</p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span> <span class="nn">ds_pycontain</span> <span class="kn">import</span> <span class="n">DockerContainer</span><span class="p">,</span> <span class="n">DockerImage</span><span class="p">,</span> <span class="n">get_docker_client</span>
-
-  <span class="n">client</span> <span class="o">=</span> <span class="n">get_docker_client</span><span class="p">()</span>
-
-  <span class="c1"># This will fetch the image from dockerhub if it is not already present</span>
-  <span class="c1"># with the &quot;latest&quot; tag. Then container is started and commands are run</span>
-  <span class="k">with</span> <span class="n">DockerContainer</span><span class="p">(</span><span class="n">DockerImage</span><span class="o">.</span><span class="n">from_tag</span><span class="p">(</span><span class="s2">&quot;alpine&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">container</span><span class="p">:</span>
-      <span class="n">ret_code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;touch /animal.txt&quot;</span><span class="p">)</span>
-      <span class="k">assert</span> <span class="n">ret_code</span> <span class="o">==</span> <span class="mi">0</span>
-
-      <span class="n">ret_code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ls /&quot;</span><span class="p">)</span>
-      <span class="k">assert</span> <span class="n">ret_code</span> <span class="o">==</span> <span class="mi">0</span>
-      <span class="k">assert</span> <span class="n">cast</span><span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;animal.txt&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
-</pre></div>
-</div>
+<p>This is the documentation for the code of the project API.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/modules.html">ds_pycontain modules</a><ul>
@@ -113,6 +91,10 @@
 <li class="toctree-l4"><a class="reference internal" href="api/ds_pycontain.html#ds_pycontain.docker_containers.DockerImage"><code class="docutils literal notranslate"><span class="pre">DockerImage</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/ds_pycontain.html#ds_pycontain.docker_containers.generate_random_container_tag"><code class="docutils literal notranslate"><span class="pre">generate_random_container_tag()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/ds_pycontain.html#ds_pycontain.docker_containers.get_docker_client"><code class="docutils literal notranslate"><span class="pre">get_docker_client()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/ds_pycontain.html#module-ds_pycontain.python_dockerized_repl">ds_pycontain.python_dockerized_repl module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/ds_pycontain.html#ds_pycontain.python_dockerized_repl.PythonContainerREPL"><code class="docutils literal notranslate"><span class="pre">PythonContainerREPL</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/ds_pycontain.html#module-ds_pycontain">Module contents</a><ul>

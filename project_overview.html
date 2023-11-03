@@ -45,7 +45,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Project overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#motivation">Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-code-snippets">Example code snippets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#execute-commands-in-container-running-in-the-background">Execute commands in container running in the background:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-images">Docker images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-repl-running-in-docker-container">Python REPL running in docker container</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="code_documentation.html">Code documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="howtos.html">How to..?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licenses.html">Licenses</a></li>
@@ -77,9 +86,95 @@
              
   <section id="project-overview">
 <h1>Project overview<a class="headerlink" href="#project-overview" title="Permalink to this heading"></a></h1>
-<p>The docker API is quite complicated and not well documented or typed.
+<p><strong>ds_pycontain</strong> is a python package which provides an abstraction over the docker API and provide Python REPL running in a docker container.</p>
+<p>Supported functionality covers:</p>
+<ul class="simple">
+<li><p>Building docker images from Dockerfiles</p></li>
+<li><p>Pulling docker images from dockerhub (or similar)</p></li>
+<li><p>Running docker containers to execute a one-off command</p></li>
+<li><p>Running docker containers to execute a long-running process and communicate with it</p></li>
+<li><p>Run python commands in a container and get the result.</p></li>
+</ul>
+<section id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this heading"></a></h2>
+<p>Main motivation is to allow to orchestrate running unsafe code or commands in isolated environment.
+The docker API is quite complicated and not well documented or typed.
 This project aims to provide a higher level abstraction over the docker API.</p>
-<p>Main motivation is to allow to orchestrate running unsafe code or commands in isolated environment.</p>
+<p>What is also provided is <strong>a python REPL running in a docker container</strong>.</p>
+<p>This might be useful to improve security for execution of LLM models/agents generated code, which generally should not be trusted.</p>
+</section>
+<section id="example-code-snippets">
+<h2>Example code snippets<a class="headerlink" href="#example-code-snippets" title="Permalink to this heading"></a></h2>
+<section id="execute-commands-in-container-running-in-the-background">
+<h3>Execute commands in container running in the background:<a class="headerlink" href="#execute-commands-in-container-running-in-the-background" title="Permalink to this heading"></a></h3>
+<p>Below is a short snippet showcasing how to run docker container in the background and execute commands in it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span> <span class="nn">ds_pycontain</span> <span class="kn">import</span> <span class="n">DockerContainer</span><span class="p">,</span> <span class="n">DockerImage</span><span class="p">,</span> <span class="n">get_docker_client</span>
+
+  <span class="n">client</span> <span class="o">=</span> <span class="n">get_docker_client</span><span class="p">()</span>
+
+  <span class="c1"># This will fetch the image from dockerhub if it is not already present</span>
+  <span class="c1"># with the &quot;latest&quot; tag. Then container is started and commands are run</span>
+  <span class="k">with</span> <span class="n">DockerContainer</span><span class="p">(</span><span class="n">DockerImage</span><span class="o">.</span><span class="n">from_tag</span><span class="p">(</span><span class="s2">&quot;alpine&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">container</span><span class="p">:</span>
+      <span class="n">ret_code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;touch /animal.txt&quot;</span><span class="p">)</span>
+      <span class="k">assert</span> <span class="n">ret_code</span> <span class="o">==</span> <span class="mi">0</span>
+
+      <span class="n">ret_code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ls /&quot;</span><span class="p">)</span>
+      <span class="k">assert</span> <span class="n">ret_code</span> <span class="o">==</span> <span class="mi">0</span>
+      <span class="k">assert</span> <span class="n">cast</span><span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;animal.txt&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="docker-images">
+<h3>Docker images<a class="headerlink" href="#docker-images" title="Permalink to this heading"></a></h3>
+<p>Images can be pulled from dockerhub or built from dockerfile.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ds_pycontain</span> <span class="kn">import</span> <span class="n">DockerImage</span>
+
+<span class="c1"># pull or use alpine:latest</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">DockerImage</span><span class="o">.</span><span class="n">from_tag</span><span class="p">(</span><span class="s2">&quot;alpine&quot;</span><span class="p">)</span>
+<span class="c1"># use provided tag to pull/use the image</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">DockerImage</span><span class="o">.</span><span class="n">from_tag</span><span class="p">(</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;3.9-slim&quot;</span><span class="p">)</span>
+<span class="c1">#  use this dockerfile to build a new local image</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">DockerImage</span><span class="o">.</span><span class="n">from_dockerfile</span><span class="p">(</span><span class="s2">&quot;example/Dockerfile&quot;</span><span class="p">)</span>
+<span class="c1"># you can provide a directory path which contains Dockerfile, set custom image name</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">DockerImage</span><span class="o">.</span><span class="n">from_dockerfile</span><span class="p">(</span><span class="s2">&quot;path/to/dir_with_Dockerfile/&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="python-repl-running-in-docker-container">
+<h3>Python REPL running in docker container<a class="headerlink" href="#python-repl-running-in-docker-container" title="Permalink to this heading"></a></h3>
+<p>Running Python code in docker container is rather easy with this package.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span> <span class="nn">ds_pycontain.python_dockerized_repl</span> <span class="kn">import</span> <span class="n">PythonContainerREPL</span>
+
+  <span class="c1"># To start python REPL in container it is easy,</span>
+  <span class="c1"># just be aware that it will take some time to start the container</span>
+  <span class="c1"># and ports might be allocated by OS, so use different port/retry</span>
+  <span class="c1"># if you get error.</span>
+  <span class="n">repl</span> <span class="o">=</span> <span class="n">PythonContainerREPL</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">7121</span><span class="p">)</span>
+
+  <span class="c1"># You can run python commands in the container</span>
+  <span class="c1"># and it will keep state between commands.</span>
+  <span class="n">out1</span> <span class="o">=</span> <span class="n">repl</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;x = [1, 2, 3]&quot;</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="n">out1</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+  <span class="c1"># Eval returns string representation of the python command</span>
+  <span class="c1"># as it would be in python REPL:</span>
+  <span class="n">out2</span> <span class="o">=</span> <span class="n">repl</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="s2">&quot;len(x)&quot;</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="n">out2</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span>
+
+  <span class="c1"># Exec returns captured standard output (stdout)</span>
+  <span class="c1"># so it won&#39;t return anything in this case:</span>
+  <span class="n">out3</span> <span class="o">=</span> <span class="n">repl</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;len(x)&quot;</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="n">out3</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+  <span class="c1"># but exec with print works:</span>
+  <span class="n">out4</span> <span class="o">=</span> <span class="n">repl</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;print(len(x))&quot;</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="n">out4</span> <span class="o">==</span> <span class="s2">&quot;3</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+  <span class="c1"># You can also get error messages if code is wrong:</span>
+  <span class="n">err</span> <span class="o">=</span> <span class="n">repl</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;print(x&quot;</span><span class="p">)</span>
+  <span class="k">assert</span> <span class="s2">&quot;SyntaxError&quot;</span> <span class="ow">in</span> <span class="n">err</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
 
