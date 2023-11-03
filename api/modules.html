@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ds_pycontain modules &mdash; pycontain  documentation</title>
+  <title>ds_pycontain modules &mdash; ds_pycontain  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            pycontain
+            ds_pycontain
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -63,7 +63,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">pycontain</a>
+          <a href="../index.html">ds_pycontain</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -88,7 +88,31 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ds_pycontain.html">ds_pycontain code documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ds_pycontain.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ds_pycontain.html#ds-pycontain-hello-module">ds_pycontain.hello module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ds_pycontain.html#module-ds_pycontain.docker_containers">ds_pycontain.docker_containers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer"><code class="docutils literal notranslate"><span class="pre">DockerContainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.__enter__"><code class="docutils literal notranslate"><span class="pre">DockerContainer.__enter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.__exit__"><code class="docutils literal notranslate"><span class="pre">DockerContainer.__exit__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.docker_container"><code class="docutils literal notranslate"><span class="pre">DockerContainer.docker_container</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.name"><code class="docutils literal notranslate"><span class="pre">DockerContainer.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.run"><code class="docutils literal notranslate"><span class="pre">DockerContainer.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.spawn_run"><code class="docutils literal notranslate"><span class="pre">DockerContainer.spawn_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.unsafe_exit"><code class="docutils literal notranslate"><span class="pre">DockerContainer.unsafe_exit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerContainer.unsafe_start"><code class="docutils literal notranslate"><span class="pre">DockerContainer.unsafe_start()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage"><code class="docutils literal notranslate"><span class="pre">DockerImage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage.__repr__"><code class="docutils literal notranslate"><span class="pre">DockerImage.__repr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage.exists"><code class="docutils literal notranslate"><span class="pre">DockerImage.exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage.from_dockerfile"><code class="docutils literal notranslate"><span class="pre">DockerImage.from_dockerfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage.from_dockerfile_content"><code class="docutils literal notranslate"><span class="pre">DockerImage.from_dockerfile_content()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage.from_tag"><code class="docutils literal notranslate"><span class="pre">DockerImage.from_tag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.DockerImage.remove"><code class="docutils literal notranslate"><span class="pre">DockerImage.remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.generate_random_container_tag"><code class="docutils literal notranslate"><span class="pre">generate_random_container_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.docker_containers.get_docker_client"><code class="docutils literal notranslate"><span class="pre">get_docker_client()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="ds_pycontain.html#module-ds_pycontain">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.DockerContainer"><code class="docutils literal notranslate"><span class="pre">DockerContainer</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="ds_pycontain.html#ds_pycontain.DockerContainer.__enter__"><code class="docutils literal notranslate"><span class="pre">DockerContainer.__enter__()</span></code></a></li>
@@ -131,7 +155,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, ds.</p>
+    <p>&#169; Copyright 2023, deepsense.ai.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

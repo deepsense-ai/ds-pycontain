@@ -1,14 +1,6 @@
 # Project overview
 
-This is introduction to the project.
+The docker API is quite complicated and not well documented or typed.
+This project aims to provide a higher level abstraction over the docker API.
 
-Write here what this project is about, what problems does it solves on high level.
-
-You can also use [mermaid](https://mermaid.js.org/) - read more on [extension page](https://github.com/mgaitan/sphinxcontrib-mermaid):
-
-```{mermaid}
-  graph TD;
-      ds_pycontain --> B;
-      ds_pycontain --> C;
-      B --> D;
-```
+Main motivation is to allow to orchestrate running unsafe code or commands in isolated environment.
