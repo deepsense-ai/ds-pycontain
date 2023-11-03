@@ -1,10 +1,51 @@
-# deepsense.ai pycontain
+# [deepsense.ai](https://deepsense.ai) ds_pycontain
+![CI](https://github.com/deepsense-ai/ds-pycontain/actions/workflows/ci.yml/badge.svg)
+[![PyPI](https://img.shields.io/pypi/v/ds_pycontain?label=pypi%20package)](https://pypi.org/project/ds-pycontain/)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/ds-pycontain)
 
+[Documentation](https://deepsense-ai.github.io/ds-pycontain/)
 
-It is a simple wrapper library around docker python API to make it easier to use in, in particular for langchain.
+It is a simple wrapper library around docker python API to make it easier to use in. In particular it was created for langchain isolated repl.
 
-Project created with ds-template: [https://deepsense-ai.github.io/ds-template/](https://deepsense-ai.github.io/ds-template/).
+This package makes it a bit easier to:
 
+* Build docker images from Dockerfiles or in-memory string.
+* Pull docker images from dockerhub (or similar).
+* Run docker container to execute a one-off command.
+* Run docker container to execute a long-running process and communicate with it.
+
+Project boostraped with ds-template: [https://deepsense-ai.github.io/ds-template/](https://deepsense-ai.github.io/ds-template/).
+
+# Example code snippet
+
+## Execute commands in container running in the background:
+```python
+  from ds_pycontain import DockerContainer, DockerImage, get_docker_client
+
+  client = get_docker_client()
+
+  # This will fetch the image from dockerhub if it is not already present
+  # with the "latest" tag. Then container is started and commands are run
+  with DockerContainer(DockerImage.from_tag("alpine")) as container:
+      ret_code, output = container.run("touch /animal.txt")
+      assert ret_code == 0
+
+      ret_code, output = container.run("ls /")
+      assert ret_code == 0
+      assert cast(bytes, output).find(b"animal.txt") >= 0
+```
+
+## Docker images
+```python
+# pull or use alpine:latest
+image = DockerImage.from_tag("alpine")
+# use provided tag to pull/use the image
+image = DockerImage.from_tag("python", tag="3.9-slim")
+#  use this dockerfile to build a new local image
+image = DockerImage.from_dockerfile("example/Dockerfile")
+# you can provide a directory path which contains Dockerfile, set custom image name
+image = DockerImage.from_dockerfile("path/to/dir_with_Dockerfile/", name="cow")
+```
 
 # Setup developer environment
 
@@ -35,20 +76,6 @@ To reformat and lint all files in the project, use:
 `pre-commit run --all-files`
 
 The used linters are configured in `.pre-commit-config.yaml`. You can use `pre-commit autoupdate` to bump tools to the latest versions.
-
-## Autoreload within notebooks
-
-When you install project's package add below code (before imports) in your notebook:
-```
-# Load the "autoreload" extension
-%load_ext autoreload
-# Change mode to always reload modules: you change code in src, it gets loaded
-%autoreload 2
-```
-Read more about different modes in [documentation](https://ipython.org/ipython-doc/3/config/extensions/autoreload.html).
-
-All code should be in `src/` to make reusability and review straightforward, keep notebooks simple for exploratory data analysis.
-See also [Cookiecutter Data Science opinion](https://drivendata.github.io/cookiecutter-data-science/#notebooks-are-for-exploration-and-communication).
 
 # Project documentation
 
