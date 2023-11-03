@@ -34,8 +34,6 @@ class DockerImage:
     """Represents a locally available docker image as a tag.
     You can either use existing docker image or build a new one from Dockerfile.
 
-    :example usage:
-
     >>> image = DockerImage.from_tag("alpine")
     >>> image = DockerImage.from_tag("python", tag="3.9-slim")
     >>> image = DockerImage.from_dockerfile("example/Dockerfile")
@@ -78,7 +76,7 @@ class DockerImage:
 
     @classmethod
     def remove(cls, name: str) -> None:
-        """WARNING: Removes image from the system, be cautious with this function.
+        """**WARNING:** Removes image from the system, be cautious with this function.
         It is irreversible operation!.
         :param name: docker image name with tag, e.g. "alpine:latest"
         """
@@ -95,8 +93,11 @@ class DockerImage:
     ) -> "DockerImage":
         """Use image with a given repository and tag. It is going to pull it if it is
         not present on the system.
-        Example: repository = "alpine" (will get "latest" tag)
-        Example: repository = "python" tag = "3.9-slim"
+
+        **Examples:**
+
+        >>> repository = "alpine" # (will get "latest" tag)
+        >>> repository = "python", tag = "3.9-slim"
 
         :param repository: docker image repository, e.g. "alpine".
         :param tag: docker image tag, e.g. "latest".
@@ -174,12 +175,15 @@ class DockerImage:
 class DockerContainer:
     """An isolated environment for running commands, based on docker container.
 
-    Examples:
+    **Examples:**
+
     If you need to run container for a single job:
+
     >>> container = DockerContainer(DockerImage.from_tag("alpine"))
     >>> status_code, logs = container.spawn_run("echo hello world")
 
     To run a container in background and execute commands:
+
     >>> with DockerContainer(DockerImage.from_tag("alpine")) as container:
     >>>     status_code, logs = container.run("echo hello world")
     """

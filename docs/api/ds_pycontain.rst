@@ -4,10 +4,10 @@ ds_pycontain code documentation
 Submodules
 ----------
 
-ds_pycontain.hello module
+ds_pycontain.docker_containers module
 ----------------------------------------------------
 
-.. automodule:: ds_pycontain.hello
+.. automodule:: ds_pycontain.docker_containers
    :members:
    :undoc-members:
    :show-inheritance:

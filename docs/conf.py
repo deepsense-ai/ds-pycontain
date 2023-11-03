@@ -6,8 +6,8 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'pycontain'
-copyright = '2023, ds'
+project = 'ds_pycontain'
+copyright = '2023, deepsense.ai'
 author = 'deepsense.ai'
 
 # -- General configuration ---------------------------------------------------
@@ -20,7 +20,6 @@ extensions = [
     "sphinx.ext.intersphinx", # allows to cross reference other sphinx documentations
     "sphinx.ext.autosectionlabel", # each doc section gets automatic reference generated
     "myst_parser", # adds support for Markdown
-    "sphinxcontrib.mermaid", # allows to use Mermaid diagrams
 ]
 
 templates_path = ['_templates']
@@ -35,8 +34,6 @@ html_static_path = ["_static"]
 # Mapping to link other documentations
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
-    "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
-    "numpy": ("https://numpy.org/doc/stable", None),
 }
 
 
