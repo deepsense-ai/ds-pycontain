@@ -8,7 +8,7 @@ on:
 
 jobs:
   lints:
-    name: Lint and test
+    name: Run linters
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -38,12 +38,13 @@ jobs:
           severity: "CRITICAL,HIGH"
 
       - name: Create venv
-        run: . ./create_venv.sh
+        run: . ./setup_dev_env.sh
 
       - name: Check licenses
         run: ./check_licenses.sh
 
   tests:
+    name: Run tests
     runs-on: ubuntu-latest
     container: python:3.11
 
