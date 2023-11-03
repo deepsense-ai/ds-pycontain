@@ -6,7 +6,7 @@
 [Documentation](https://deepsense-ai.github.io/ds-pycontain/)
 
 ```bash
-pip install ds_pycontain
+pip install ds-pycontain
 ```
 
 It is a simple wrapper library around docker python API to make it easier to use and to provide Python REPL running in a container.
