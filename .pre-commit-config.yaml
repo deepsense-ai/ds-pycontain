@@ -44,7 +44,7 @@ repos:
             args: []
             # You can add additional plugins for mypy below
             # such as types-python-dateutil
-            additional_dependencies: []
+            additional_dependencies: ["types-requests"]
             exclude: (/test_|setup.py|/tests/|docs/)
 
       # Sort imports alphabetically, and automatically separated into sections and by type.
