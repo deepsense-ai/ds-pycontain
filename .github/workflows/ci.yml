@@ -65,6 +65,12 @@ jobs:
       - name: Run Tests
         run: CI=1 pytest -v -p no:warnings --junitxml=report.xml tests/
 
+      - name: Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: 'report.xml'
+
       - name: Publish Test Report
         uses: actions/upload-artifact@v2
         with:
