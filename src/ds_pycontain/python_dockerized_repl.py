@@ -74,6 +74,8 @@ class PythonContainerREPL:
         port: int = 7123,
         image: Optional[DockerImage] = None,
         base_image: str = "python:3.11-alpine3.18",
+        docker_startup_timeout: float = 300.0,
+        repl_startup_timeout: float = 3.0,
         **kwargs: Dict[str, Any],
     ) -> None:
         """Starts docker container with python REPL server and wait till it
@@ -89,6 +91,8 @@ class PythonContainerREPL:
         :param port: port to use for the python REPL server.
         :param image: docker image to use for the container.
         :param base_image: base image to use for the docker image.
+        :param docker_startup_timeout: timeout in seconds to wait for docker container to start.
+        :param repl_startup_timeout: timeout in seconds to wait for REPL server to start.
         :param kwargs: additional params to pass to DockerContainer constructor.
         """
         # for now use the image we created.
@@ -105,8 +109,8 @@ class PythonContainerREPL:
         # we need to ensure container is running and REPL server is
         # ready to accept requests, otherwise we might get connection
         # refused due to race conditions.
-        self._wait_for_container_running()
-        self._wait_for_repl_ready()
+        self._wait_for_container_running(timeout=docker_startup_timeout)
+        self._wait_for_repl_ready(timeout=repl_startup_timeout)
 
     def _wait_for_container_running(self, timeout: float = 3.0) -> None:
         """Sleep until container is running or timeout is reached.
